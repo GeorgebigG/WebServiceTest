@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-    EditText celsius;
+    static EditText celsius;
     Button calculate;
     TextView result;
 
@@ -32,16 +32,19 @@ public class MainActivity extends Activity {
     public class AsyncCallSoap extends AsyncTask<String, Void, String> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(String... parameter) {
             CallSoap soap = new CallSoap();
-            String response = soap.getFarenheit(celsius.getText().toString());
-            return response;
+            String[] params = { MainActivity.celsius.getText().toString() };
+            String[] names = { "Celsius" };
+            return soap.getXmlFromSoap(params, names, "http://www.w3schools.com/xml/CelsiusToFahrenheit",
+                    "CelsiusToFahrenheit","http://www.w3schools.com/xml/", "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+                    "http://www.w3schools.com/xml/tempconvert.asmx");
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            result.setText(s);
+            result.setText(ParseXMLString.xmlAsString(s, "CelsiusToFahrenheitResponse", "CelsiusToFahrenheitResult"));
         }
     }
 }

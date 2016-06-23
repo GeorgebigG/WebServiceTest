@@ -10,26 +10,23 @@ import org.ksoap2.transport.HttpTransportSE;
  * Created by gio on 6/17/16.
  */
 public class CallSoap {
-    public String getFarenheit(String celsius) {
-        String SOAP_ACTION = "http://www.w3schools.com/xml/CelsiusToFahrenheit";
-        String OPERATION_NAME = "CelsiusToFahrenheit";
-        String WSDL_TARGET_NAMESPACE = "http://www.w3schools.com/xml/";
-        String XML_VERSION_TAG = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+    public String getXmlFromSoap(String[] params, String[] names,String SOAP_ACTION, String METHOD_NAME, String WSDL_URL, String XML_VERSION_TAG, String SOAP_ADRESS) {
+        SoapObject request = new SoapObject(WSDL_URL, METHOD_NAME);
 
-        String SOAP_ADRESS = "http://www.w3schools.com/xml/tempconvert.asmx";
+        if (names.length != params.length)
+            return "Error...";
 
-        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME);
-
-        PropertyInfo propertyInfo = new PropertyInfo();
-        propertyInfo.setName("Celsius");
-        propertyInfo.setValue(celsius);
-        propertyInfo.setType(String.class);
-        request.addProperty(propertyInfo);
+        for (int i = 0; i < params.length; i++) {
+            PropertyInfo propertyInfo = new PropertyInfo();
+            propertyInfo.setName(names[i]);
+            propertyInfo.setValue(params[i]);
+            propertyInfo.setType(String.class);
+            request.addProperty(propertyInfo);
+        }
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.dotNet = true;
         envelope.setOutputSoapObject(request);
-        String response = null;
 
         try {
             HttpTransportSE transportSE = new HttpTransportSE(SOAP_ADRESS);
