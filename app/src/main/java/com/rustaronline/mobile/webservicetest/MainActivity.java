@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            result.setText(ParseXMLString.xmlAsString(s, "CelsiusToFahrenheitResponse", "CelsiusToFahrenheitResult"));
+            result.setText(ParseXMLString.xmlAsString(s, "CelsiusToFahrenheitResponse", "CelsiusToFahrenheitResult")[0]);
         }
     }
 }
