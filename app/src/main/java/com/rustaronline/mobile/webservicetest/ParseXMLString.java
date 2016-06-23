@@ -11,7 +11,6 @@ import java.io.*;
 public class ParseXMLString {
     public static String[] xmlAsString(String xmlRecords, String node, String element) {
         try {
-
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputSource input = new InputSource();
             input.setCharacterStream(new StringReader(xmlRecords));
@@ -26,8 +25,8 @@ public class ParseXMLString {
 
                 results[i] = result;
             }
-            return getCharacterFromElement(results);
 
+            return getCharacterFromElement(results);
         } catch (Exception ex) {
             ex.printStackTrace();
             return new String[] { "Error..." };
